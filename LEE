@@ -12,7 +12,7 @@ int main()
     float boss_exp;                             // 보스 경험치
     float Exp_box = 30000;                      // 레벨업에 필요한 경험치량 (1레벨일떄 3만 고정)
     float Prev_Exp_box = 30000;                 // 이전레벨 경험치량 보관 변수
-    int level = 0;
+    int level = 1;
     int turn = 0;                               // 턴 수 체크
     srand(time(NULL));                          // 랜덤 변수 시간을 이용해 계속 초기화
     
@@ -20,7 +20,7 @@ int main()
     printf("어쩌구 저쩌구 입장?");
     
 
-    while(level < 2)                            // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
+    while(level < 3)                            // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
     {
         if(level == 1)
         {
@@ -32,12 +32,13 @@ int main()
             for(int event = 0; event < 5; event++)          // 단계 내 이벤트 
             {          
                 Exp += Exp_rand;                            // -3500 ~ +3500까지 랜덤하게 뽑아준다
+                // printf("%.2f\n", Exp);
 
                 if(event == 4)
                 {
                     boss_exp = Exp_rand;
                     Exp += boss_exp * Boss_rand;                  // 기존 exp에 보스 추가경험치곱 1.0~5.0래덤한 값 곱
-                    // printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
+                    printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
                 }
                 // 계속할건지 묻기.
             }
@@ -46,7 +47,6 @@ int main()
                 printf("히든 스테이지에 입장하셨습니다 경험치를 벌어가세요!\n");
                 Exp += rand() % 3500; 
             }
-
             else if(Exp > Exp_box)                      // 레벨업!
             {
                 printf("축하합니다 레벨업 하셨습니다!\n");
@@ -55,8 +55,7 @@ int main()
                 Exp = Exp - Exp_box;                    // 초과 경험치 이월
                 Exp_box = Exp_box * Exp_boxrand;
             }
-
-            else if(Exp < Exp_box)                                       // 레벨 하락
+            else                                        // 레벨 하락
             {
                 printf("이런 레벨이 하락했습니다. 조심하십시요 보스는 강합니다.\n");
                 printf("팁 : IRON 몬스터는 오른손이 약점입니다.\n");
@@ -66,21 +65,21 @@ int main()
             }
 
             turn++;                                          // 턴 수 증가
-
-            if(level >= 99)                                  // 99렙이상이면 종료
-            {
-                printf("전설의 출현! 개발원 정복!\n");
-                break;
-            }
-            else if(level == 1 && Exp < 0)                  // 1렙이면서 경험치가 음수면 패배
-            {
-                printf("YOU DIE");
-                break;
-            }
-
+            printf("\n");
         }
-        level++;
+        level++;     // test용 나중에 지우기
         printf("\n");
+
+        if(level >= 99)                                  // 99렙이상이면 종료
+        {
+            printf("전설의 출현! 개발원 정복!\n");
+            break;
+        }
+        else if((level == 1 && Exp < 0) || level < 1)                  // 1렙이면서 경험치가 음수면 패배
+        {
+            printf("YOU DIE");
+            break;
+        }
     }
     // printf("%d\n", Exp);
     printf("종료!");
