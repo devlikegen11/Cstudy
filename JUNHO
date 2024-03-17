@@ -1,8 +1,8 @@
 #include<stdio.h>
-#include <stdlib.h>                          // 랜덤함수 헤더파일
-#define Exp_boxrand (((float)(rand() % 7)  / 10) + 1.8)
-#define Exp_rand rand() % 7001 - 3500
-#define Boss_rand (((float)(rand() % 40) / 10) + 1)
+#include <stdlib.h>                                              // 랜덤함수 헤더파일
+#define Exp_boxrand (((float)(rand() % 7)  / 10) + 1.8)          // 2레벨 이후 부터 1레벨 당 경험치 수치는 1.8배 ~ 2.5배 랜덤으로 선택된다.
+#define Exp_rand rand() % 7001 - 3500                            // 경험치 -3500 ~ +3500 랜덤으로 선택된다.
+#define Boss_rand (((float)(rand() % 40) / 10) + 1)              // Boss 경험치는 1.0배 ~ 5.0 랜덤으로 선택된다.
 int main()
 {
     // 변수 설정
