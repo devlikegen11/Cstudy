@@ -13,11 +13,11 @@ int main()
     float Prev_Exp_box = 30000;                 // 이전레벨 경험치량 보관 변수
     int level = 1;
     int turn = 0;                               // 턴 수 체크
+    int user;                                   // 게임진행 방법 정하는 변수
     srand(time(NULL));                          // 랜덤 변수 시간을 이용해 계속 초기화
     
     printf("여기는 므시므시한 개발원입니다.");
     printf("어쩌구 저쩌구 입장?");
-    
 
     while(level < 100)                            // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
     {
@@ -26,14 +26,14 @@ int main()
             Exp_box = 30000;                    // 레벨이 1이 되면 경험치필요량 3만 고정
         }
 
-        for(int stage = 1; stage < 5; stage++)              // 스테이지 1단계부터 5단계까지
+        for(int stage = 1; stage <= 5; stage++)              // 스테이지 1단계부터 5단계까지
         {
-            for(int event = 0; event < 5; event++)          // 단계 내 이벤트 
+            for(int event = 0; event < 6; event++)          // 단계 내 이벤트 
             {          
                 Exp += Exp_rand;                            // -3500 ~ +3500까지 랜덤하게 뽑아준다
                 // printf("%.2f\n", Exp);
 
-                if(event == 4)
+                if(event == 5)
                 {
                     Exp = Exp * Boss_rand;                  // 기존 exp에 보스 추가경험치곱 1.0~5.0래덤한 값 곱
                     // printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
@@ -55,29 +55,47 @@ int main()
                 }
             }
             
-            if (Exp < 0)                                       // 레벨 하락
+            if (Exp < Exp_box)                                       // 레벨 하락
             {
                 printf("이런 레벨이 하락했습니다. 조심하십시요 보스는 강합니다.\n");
                 printf("팁 : IRON 몬스터는 오른손이 약점입니다.\n");
                 level--;
-                Exp = Exp_box - Exp;                    // 미달 경험치 차감
+                Exp = 0;                    // 미달 경험치 차감
                 Exp_box = Prev_Exp_box;                 // 이전 경험치 필요량으로 회귀
                 continue;
             }
 
             turn++;                                          // 턴 수 증가
             printf("\n");
-            printf("%d번쨰 스테이지입니다\n", turn);
-            printf("%d레벨입니다.\n", level);
-
+            
             if(level == 99)                                  // 99렙이상이면 종료
-                {
-                    break;
-                }
-                else if(level < 1)                  // 1렙이면서 경험치가 음수면 패배
-                {
-                    break;
-                }
+            {
+                break;
+            }
+            else if(level < 1)                  // 1렙이면서 경험치가 음수면 패배
+            {
+                break;
+            }
+
+            printf("%d레벨입니다.\n", level);
+            printf("지금까지 %d턴이 진행됬습니다.\n", turn);
+            printf("진행중인 스테이지는 %d입니다.", stage);
+            printf("다음 모험을 진행하려면  1을 입력\n클리어한 스테이지로 돌아간다면 2를 입력: \n");
+            scanf("%d", &user);
+            
+            if (user == 1)
+            {
+                printf("다음 모험을 진행합니다. \n");
+                    continue;
+            }
+            else
+            {
+                printf("해당 회차를 다시 도전합니다.\n");
+                --stage;
+                --stage;
+                    continue;
+            }    
+            printf("\n");
 
         }
         printf("\n");
