@@ -36,7 +36,7 @@ int main()
                 if(event == 4)
                 {
                     Exp = Exp * Boss_rand;                  // 기존 exp에 보스 추가경험치곱 1.0~5.0래덤한 값 곱
-                    printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
+                    // printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
                 }
             }
 
@@ -50,10 +50,6 @@ int main()
                 Exp_box = Exp_box * Exp_boxrand;
 
                 if(level == 99)                                  // 99렙이상이면 종료
-                {
-                    break;
-                }
-                else if(level < 1)                  // 1렙이면서 경험치가 음수면 패배
                 {
                     break;
                 }
