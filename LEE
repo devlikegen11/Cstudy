@@ -10,6 +10,7 @@ int main()
     char name[20];
     float Exp = 0;                              // 경험치 창
     float Exp_box = 30000;                      // 레벨업에 필요한 경험치량 (1레벨일떄 3만 고정)
+    float Prev_Exp_box = 30000;                 // 이전레벨 경험치량 보관 변수
     int level = 1;
     int turn = 0;                               // 턴 수 체크
     srand(time(NULL));                          // 랜덤 변수 시간을 이용해 계속 초기화
@@ -35,14 +36,16 @@ int main()
                 if(event == 4)
                 {
                     Exp = Exp * Boss_rand;                  // 기존 exp에 보스 추가경험치곱 1.0~5.0래덤한 값 곱
+                    printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
                 }
             }
 
-            while(Exp > Exp_box)                      // 초과 레벨업!
+            while(Exp > Exp_box)                      // 레벨업!
             {
                 printf("축하합니다 레벨업 하셨습니다!\n");
                 printf("#$%%^^*지금당장 성장 패키지 구매!\n");
                 level++;
+                Prev_Exp_box = Exp_box;                 // 이전레벨 경험치 필요량 저장
                 Exp = Exp - Exp_box;                    // 초과 경험치 이월
                 Exp_box = Exp_box * Exp_boxrand;
 
@@ -50,26 +53,27 @@ int main()
                 {
                     break;
                 }
-            }
-
-            while(Exp < Exp_box)                      // 미달 레벨다운
-            {
-                printf("이런 레벨이 하락했습니다. 조심하십시요 보스는 강합니다.\n");
-                level--;
-                Exp = Exp_box - Exp;                            // 미달 경험치
-                Exp_box = Exp_box / Exp_boxrand;
-
-                if(level < 1)                                  // 99렙이상이면 종료
+                else if(level < 1)                  // 1렙이면서 경험치가 음수면 패배
                 {
                     break;
                 }
             }
+            
+            if (Exp < 0)                                       // 레벨 하락
+            {
+                printf("이런 레벨이 하락했습니다. 조심하십시요 보스는 강합니다.\n");
+                printf("팁 : IRON 몬스터는 오른손이 약점입니다.\n");
+                level--;
+                Exp = Exp_box - Exp;                    // 미달 경험치 차감
+                Exp_box = Prev_Exp_box;                 // 이전 경험치 필요량으로 회귀
+                continue;
+            }
 
+            turn++;                                          // 턴 수 증가
             printf("\n");
             printf("%d번쨰 스테이지입니다\n", turn);
             printf("%d레벨입니다.\n", level);
-            turn++;
-            
+
             if(level == 99)                                  // 99렙이상이면 종료
                 {
                     break;
