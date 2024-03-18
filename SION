@@ -23,8 +23,11 @@ int main()
 
     srand(time(NULL));                          // 랜덤 변수 시간을 이용해 계속 초기화
     
-    printf("여기는 므시므시한 개발원입니다.");
-    printf("어쩌구 저쩌구 입장?");
+    printf("여기는 불면의 저주에 걸린 개발원입니다.\n");
+    printf("당신의 이름을 입력하세요.\n");
+    scanf("%s", name);
+    printf("%s님 안녕하세요! 당신은 불면의 저주에 걸렸습니다! 해주를 할려면 개발원을 정복하세요!\n", name);
+    printf("Tip : 아메리카노를 수혈하세요!\n섭취시 도핑효과로 잠시동안 불면의 저주를 약화시킬수 있습니다\n");
 
     while(1)                                    // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
     {
@@ -149,7 +152,7 @@ int main()
             printf("%d레벨입니다.\n", level);
             printf("지금까지 %d턴이 진행됬습니다.\n", turn);
             printf("진행중인 스테이지는 %d입니다.", stage);
-            printf("다음 모험을 진행하려면  1을 입력\n클리어한 스테이지로 돌아간다면 2를 입력: \n");
+            printf("다음 모험을 진행하려면 1을 입력\n클리어한 스테이지로 돌아간다면 2를 입력\n클리어한 스테이지의 이전 스테이지로 돌아가길 원한다면 3을 입력:\n");
             scanf("%d", &user);
             // user=getchar();
             
@@ -158,13 +161,23 @@ int main()
                 printf("다음 모험을 진행합니다.\n");
                     continue;
             }
-            else
+            else if(user == 2)
             {
                 printf("해당 회차를 다시 도전합니다.\n");
                 --stage;
-                --stage;
                     continue;
-            }    
+            }
+            else
+            {
+                printf("이전 회차를 도전합니다.\n");
+                --stage;
+                --stage;
+                if(stage <=-1)              // stage가 음수로 되는 것을 막기 위한 장치
+                {
+                    stage = 0;
+                }
+                    continue;
+            }
             printf("\n");
 
         }
@@ -172,12 +185,12 @@ int main()
 
         if(level == 99)                                  // 99렙이상이면 종료
         {
-            printf("전설의 출현! 개발원 정복!\n");
+            printf("개발원 정복! 불면의 저주를 이겨냈습니다!\n이제 영원한 안식에 들 수 있습니다.\n");
             break;
         }
         else if(level < 1)                  // 1렙이면서 경험치가 음수면 패배
         {
-            printf("YOU DIE\n");
+            printf("YOU DIE\n불면의 저주에 잠식되어 \"과로사\"했습니다.");
             break;
         }
 
