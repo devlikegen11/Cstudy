@@ -1,63 +1,130 @@
 #include<stdio.h>
-#include <stdlib.h>                                              // 랜덤함수 헤더파일
+#include <stdlib.h>  
+#include<time.h>                                            // 랜덤함수 헤더파일
 #define Exp_boxrand (((float)(rand() % 7)  / 10) + 1.8)          // 2레벨 이후 부터 1레벨 당 경험치 수치는 1.8배 ~ 2.5배 랜덤으로 선택된다.
-#define Exp_rand rand() % 7001 - 3500                            // 경험치 -3500 ~ +3500 랜덤으로 선택된다.
-#define Boss_rand (((float)(rand() % 40) / 10) + 1)              // Boss 경험치는 1.0배 ~ 5.0 랜덤으로 선택된다.
+#define Exp_rand rand() % 7001 - 3500                           // 경험치 -3500 ~ +3500 랜덤으로 선택된다.
+#define Boss_rand (((float)(rand() % 40) / 10) + 1.0)              // Boss 경험치는 1.0배 ~ 5.0 랜덤으로 선택된다.
 int main()
 {
     // 변수 설정
     char name[20];
-    float Exp = 0;
-    float Exp_box = 30000;
-    int level = 0;
+    float Exp = 0;                              // 경험치 창
+    float boss_exp;                             // 보스 경험치
+    float Exp_box = 30000;                      // 레벨업에 필요한 경험치량 (1레벨일떄 3만 고정)
+    float Prev_Exp_box = 30000;                 // 이전레벨 경험치량 보관 변수
+    int level = 1;
+    int turn = 0;                               // 턴 수 체크
+    
+    
+    int monster_number = 0;                     // 몬스터를 랜덤으로 뽑기 위한 대입 연산자
+    int monster_WN = 0;                         // 몬스터 약점을 랜덤으로 뽑기 위한 대입 연산자
 
-    while(level < 2)                    // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
+    srand(time(NULL));                          // 랜덤 변수 시간을 이용해 계속 초기화
+    
+    printf("여기는 므시므시한 개발원입니다.\n");
+    printf("어쩌구 저쩌구 입장?\n");
+
+    while(level < 3)                            // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
     {
-        for(int stage = 1; stage < 6; stage++)
+        if(level == 1)
         {
-            for(int event = 0; event < 5; event++)
+            Exp_box = 30000;                    // 레벨이 1이 되면 경험치필요량 3만 고정
+        }
+
+        for(int stage = 1; stage < 6; stage++)              // 스테이지 1단계부터 5단계까지
+        {
+            for(int event = 0; event < 5; event++)          // 단계 내 이벤트 
             {          
-                Exp = Exp_rand;         // -3500 ~ +3500까지 랜덤하게 뽑아준다
-                printf("%d\n", Exp);
+                Exp += Exp_rand;                            // -3500 ~ +3500까지 랜덤하게 뽑아준다
+                
+                char monster_information[70];
+                monster_number = (rand() % 4) +1;
+                if(monster_number == 1)
+                {
+                    char monster_information[70] = "Captain Ddong";
+                }
+                else if(monster_number == 2)
+                {
+                    char monster_information[70] = "Scarlet Onsi";
+                }
+                else if(monster_number == 3)
+                {
+                    char monster_information[70] = "Iron Boy";
+                }
+                else
+                {
+                    char monster_information[70] = "Juno Panther";
+                }
+                printf("%d던전) %s가 나타났습니다.\n", event+1, monster_information);
+
+                char monster_week[20];
+                monster_WN = (rand() % 4) +1;
+                if(monster_WN == 1)
+                {
+                    char monster_week[20] = "오른손";
+                }
+                else if(monster_WN == 2)
+                {
+                    char monster_week[20] = "왼손";
+                }
+                else if(monster_WN == 3)
+                {
+                    char monster_week[20] = "오른발";
+                }
+                else
+                {
+                    char monster_week[20] = "왼발";
+                }
+                printf("       (Tip: %s이 약점입니다.)\n", monster_week);
+                printf("       %f의 경험치를 획득했습니다.\n", Exp);
 
                 if(event == 4)
                 {
-                    Exp = Exp_rand;
-                    Exp = Exp * Boss_rand;   // 기존 exp에 보스 추가경험치곱 1.0~5.0래덤한 값 곱
+                    boss_exp = Exp_rand;
+                    Exp += boss_exp * Boss_rand;                  // 기존 exp에 보스 추가경험치곱 1.0~5.0래덤한 값 곱
                     printf("보스의 경험치는 %.1f입니다.\n", (float)Exp);
                 }
             }
+            if (Exp == Exp_box)                          // 히든 스테이지 오픈
+            {
+                printf("히든 스테이지에 입장하셨습니다 경험치를 벌어가세요!\n");
+                Exp += rand() % 3500; 
+            }
+            else if(Exp > Exp_box)                      // 레벨업!
+            {
+                printf("축하합니다 레벨업 하셨습니다!\n");
+                level++;
+                Prev_Exp_box = Exp_box;                 // 이전레벨 경험치 필요량 저장
+                Exp = Exp - Exp_box;                    // 초과 경험치 이월
+                Exp_box = Exp_box * Exp_boxrand;
+            }
+            else                                        // 레벨 하락
+            {
+                printf("이런 레벨이 하락했습니다. 조심하십시요 보스는 강합니다.\n");
+
+                level--;
+                Exp = Exp_box - Exp;                    // 미달 경험치 차감
+                Exp_box = Prev_Exp_box;                 // 이전 경험치 필요량으로 회귀
+            }
+
+            turn++;                                          // 턴 수 증가
+            printf("\n");
         }
-        level++;
+        level++;     // test용 나중에 지우기
         printf("\n");
-    }
-    // printf("%d\n", Exp);
-    printf("종료!");
-    return 0;
-}
 
-#include<stdio.h>
-#include <stdlib.h>                          // 랜덤함수 헤더파일
-#define Exp_boxrand (((float)(rand() % 7)  / 10) + 1.8)
-int main()
-{
-    int level = 1;
-    float Exp_box = 30000;
-    float Exp = 30005;        //예를 든거임
-
-    while(level != 99)
-    {
-        if(level >= 1 && Exp >= 30000)
+        if(level >= 99)                                  // 99렙이상이면 종료
         {
-            level++;
-            Exp = Exp - Exp_box;
-            Exp_box = Exp_box * Exp_boxrand;
+            printf("전설의 출현! 개발원 정복!\n");
+            break;
         }
-        else
+        else if((level == 1 && Exp < 0) || level < 1)                  // 1렙이면서 경험치가 음수면 패배
         {
+            printf("YOU DIE");
             break;
         }
     }
-    printf("level: %d       경험치 총 수치: %.2f      현재의 수치:%.2f\n", level, Exp_box, Exp);
+    // printf("%d\n", Exp);
+    printf("종료!");
     return 0;
 }
