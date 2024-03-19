@@ -57,6 +57,8 @@ int main()
     printf("Tip : 아메리카노를 수혈하세요!\n섭취시 도핑효과로 잠시동안 행복해질수 있습니다(착각입니다.)\n\n");
     while(1)                                    // 나중에 ture로 무한반복해서 99렙이나 1렙 이하일때 브레이크로 나오자
     {
+        level = 1;
+        float Exp = 0;
         if(level == 1)
         {
             Exp_box = 30000;                    // 레벨이 1이 되면 경험치필요량 3만 고정
@@ -137,7 +139,7 @@ int main()
                 printf("레벨 업!\n현재 %d레벨입니다.\n", level); 
                 printf("%d레벨에 필요한 경험치는 %.2f입니다.\n", level+1 ,Exp_box);
 
-                if(level >= 99)                                  // 99렙이상이면 종료
+                if(level >= 5)                                  // 99렙이상이면 종료
                 {
                     break;
                 }
@@ -151,6 +153,11 @@ int main()
                 Exp = Exp_box - Exp;                                
                 Exp_box = Exp_box / Exp_boxrand;                    // 경험치 요구량 감소
                 printf("레벨 다운!\n현재 %d레벨입니다.\n", level);
+
+                if(level < 1)                                  // 1레벨 미만이면 종료
+                {
+                    break;
+                }
             }
             turn++;                                          // 턴 수 증가
             printf("\n");
@@ -165,7 +172,7 @@ int main()
             if (user == 1)
             {
                 printf("다음 모험을 진행합니다.\n");
-                if(level == 99)                                  // 99렙이상이면 종료
+                if(level == 5)                                  // 99렙이상이면 종료
                 {
                     break;
                 }
@@ -180,7 +187,7 @@ int main()
             {
                 printf("해당 회차를 다시 도전합니다.\n");
                 --stage;
-                if(level == 99)                                  // 99렙이상이면 종료
+                if(level == 5)                                  // 99렙이상이면 종료
                 {
                     break;
                 }
@@ -199,7 +206,7 @@ int main()
                 {
                     stage = 0;
                 }
-                if(level == 99)                                  // 99렙이상이면 종료
+                if(level == 5)                                  // 99렙이상이면 종료
                 {
                     break;
                 }
@@ -213,7 +220,7 @@ int main()
         }
         printf("\n");
 
-        if(level >= 99)                                  // 99렙이상이면 종료
+        if(level >= 5)                                  // 99렙이상이면 종료
         {
             printf("전설의 출현! 개발원에서 탈출하셨습니다.!\n");
 
@@ -247,19 +254,32 @@ int main()
             printf("⠀⠀⠀⡳⣝⢾⢝⣗⢷⢽⢯⣷⣿⢿⣯⣿⣳⡫⣝⢞⢮⣿⣿⣿⣽⢿⣞⣿⣞⣷⢯⡿⡽⣯⢯⣗⣗⢾⢽⢝⣝⢮⡺⣺⣪⡳⣝⢜⢮⢺⡪⡺⡜⡆⠀⠀⠀⠀⡰⡑⢌⢂⢂⠢⠐⠀⠀⠀⠀⠀⠀\n");
             printf("⠀⠀⠀⢝⣗⢽⡳⡳⣝⢵⡫⠋⠉⠉⡯⣪⢞⢮⡳⣝⢵⡿⣿⣿⣾⢿⣻⡷⣿⢽⡯⣿⢽⡯⣟⡾⣽⢽⢽⣝⢮⡳⣝⢮⣖⢽⢜⡝⣎⢧⡫⡺⣜⠂⠀⠀⠀⠀⢨⣪⣦⣧⡶⣬⣌⡄⠀⠀⠀⠀⠀\n");
             printf("⠀⠀⠀⠈⠘⠑⠽⠹⠜⠁⠀⠀⠀⠀⡯⡮⣫⢗⣝⢮⢳⣻⣿⣿⣿⣻⣟⣿⣻⣯⡿⣽⢯⢿⢽⣽⡳⡯⡷⡽⣕⢯⡺⣕⢷⢽⠵⣝⢎⢧⡫⣺⢸⠀⠀⠀⠀⠀⢸⣽⣾⢷⣻⡽⣷⡇⠀⠀⠀⠀⠀\n");
-
-            break;
         }
         else if(level < 1)                  // 1렙이면서 경험치가 음수면 패배
         {
             printf("YOU DIE.\n");
             printf("당신의 실력으론 아직 부족합니다 6개월 더 공부하세요.\n");
-            break;
         }
+        if(level >= 5 || level < 1)
+        {
+            int Replay;
+            printf("게임을 다시 진행하고 싶으면 7, 게임을 종료한다면 7을 제외한 숫자를 눌러주십시오.\n");
+            scanf("%d", &Replay);
+    
+            if (Replay == 7)
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
 
+        }
     }
     // printf("%d\n", Exp);
     printf("종료!");
+
+    
     return 0;
 }
-
